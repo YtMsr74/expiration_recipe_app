@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="@string/name_catalog"
+        android:id="@+id/menu_catalog"
+        android:icon="@drawable/baseline_view_list_24"/>
+    <item android:title="@string/name_products"
+        android:id="@+id/menu_products"
+        android:icon="@drawable/baseline_shopping_bag_24"/>
+    <item android:title="@string/name_recipe"
+        android:id="@+id/menu_recipes"
+        android:icon="@drawable/baseline_menu_book_24"/>
+</menu>
