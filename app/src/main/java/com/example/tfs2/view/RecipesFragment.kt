@@ -3,29 +3,22 @@ package com.example.tfs2.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tfs2.R
-import com.example.tfs2.RequestManager
-import com.example.tfs2.adapter.RandomRecipeAdapter
+import com.example.tfs2.model.RecipeRequestManager
+import com.example.tfs2.view.adapter.RandomRecipeAdapter
 import com.example.tfs2.databinding.FragmentRecipesBinding
 import com.example.tfs2.model.ItemDao
 import com.example.tfs2.model.ItemDatabase
-import com.example.tfs2.model.listener.RandomRecipeResponseListener
-import com.example.tfs2.model.listener.RecipeClickListener
+import com.example.tfs2.view.listener.RecipeClickListener
 import com.example.tfs2.model.recipe.RandomRecipeApiResponse
 import com.example.tfs2.viewmodel.RecipesViewModel
-import com.example.tfs2.viewmodel.ScanViewModel
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -52,7 +45,7 @@ class RecipesFragment: Fragment(R.layout.fragment_recipes) {
         val db = ItemDatabase.getDatabase(requireContext())
         itemDao = db.itemDao()
 
-        val manager = RequestManager(requireContext())
+        val manager = RecipeRequestManager(requireContext())
         viewModel = RecipesViewModel(manager)
 
         setupRecyclerView()
@@ -135,7 +128,7 @@ class RecipesFragment: Fragment(R.layout.fragment_recipes) {
     }
 
     private fun updateRecipes(response: RandomRecipeApiResponse) {
-        randomRecipeAdapter.updateData(response.recipes ?: emptyList())
+        randomRecipeAdapter.updateData(response.recipes)
     }
 
     private fun updateSelectedProductsChips() {

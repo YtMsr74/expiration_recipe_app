@@ -1,4 +1,4 @@
-package com.example.tfs2.adapter
+package com.example.tfs2.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

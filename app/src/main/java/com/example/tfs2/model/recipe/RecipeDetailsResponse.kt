@@ -1,41 +1,42 @@
 package com.example.tfs2.model.recipe
 
-class RecipeDetailsResponse {
-    var id: Int = 0
-    lateinit var title: String
-    lateinit var image: String
-    lateinit var imageType: String
-    var servings: Int = 0
-    var readyInMinutes: Int = 0
-    lateinit var license: String
-    lateinit var sourceName: String
-    lateinit var sourceUrl: String
-    lateinit var spoonacularSourceUrl: String
-    var aggregateLikes: Int = 0
-    var HealthScore: Double = 0.0
-    var spoonacularScore: Double = 0.0
-    var pricePerServing: Double = 0.0
-    lateinit var analyzedInstructions: List<AnalyzedInstruction>
-    var cheap: Boolean = false
-    lateinit var creditsText: String
-    lateinit var cuisines: List<Any>
-    var dairyFree: Boolean = false
-    lateinit var diets: List<String>
-    lateinit var gaps: String
-    var glutenFree: Boolean = false
-    lateinit var instructions: String
-    var ketogenic: Boolean = false
-    var lowFodmap: Boolean = false
-    lateinit var occasions: List<String>
-    var sustainable: Boolean = false
-    var vegan: Boolean = false
-    var vegetarian: Boolean = false
-    var veryHealthy: Boolean = false
-    var veryPopular: Boolean = false
-    var whole30: Boolean = false
-    var weightWatcherSmartPoints: Int = 0
-    lateinit var dishTypes: List<String>
-    lateinit var extendedIngredients: List<ExtendedIngredient>
-    lateinit var summary: String
-    lateinit var winePairing: WinePairing
+data class RecipeDetailsResponse(
+    val id: Int,
+    val title: String,
+    val image: String) {
+
+    val imageType: String = ""
+    val servings: Int = 0
+    val readyInMinutes: Int = 0
+    val license: String = ""
+    val sourceName: String = ""
+    val sourceUrl: String = ""
+    val spoonacularSourceUrl: String = ""
+    val aggregateLikes: Int = 0
+    val HealthScore: Double = 0.0
+    val spoonacularScore: Double = 0.0
+    val pricePerServing: Double = 0.0
+    val analyzedInstructions: List<AnalyzedInstruction> = emptyList()
+    val cheap: Boolean = false
+    val creditsText: String = ""
+    val cuisines: List<Any> = emptyList()
+    val dairyFree: Boolean = false
+    val diets: List<String> = emptyList()
+    val gaps: String = ""
+    val glutenFree: Boolean = false
+    val instructions: String = ""
+    val ketogenic: Boolean = false
+    val lowFodmap: Boolean = false
+    val occasions: List<String> = emptyList()
+    val sustainable: Boolean = false
+    val vegan: Boolean = false
+    val vegetarian: Boolean = false
+    val veryHealthy: Boolean = false
+    val veryPopular: Boolean = false
+    val whole30: Boolean = false
+    val weightWatcherSmartPoints: Int = 0
+    val dishTypes: List<String> = emptyList()
+    val extendedIngredients: List<ExtendedIngredient> = emptyList()
+    val summary: String = ""
+    val winePairing: WinePairing = WinePairing()
 }

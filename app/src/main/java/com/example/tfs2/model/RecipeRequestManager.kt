@@ -1,11 +1,11 @@
-package com.example.tfs2
+package com.example.tfs2.model
 
 import android.content.Context
-import com.example.tfs2.model.listener.InstructionListener
-import com.example.tfs2.model.listener.RandomRecipeResponseListener
-import com.example.tfs2.model.listener.RecipeDetailsListener
+import com.example.tfs2.R
+import com.example.tfs2.view.listener.InstructionListener
+import com.example.tfs2.view.listener.RandomRecipeResponseListener
+import com.example.tfs2.view.listener.RecipeDetailsListener
 import com.example.tfs2.model.recipe.InstructionResponse
-
 import com.example.tfs2.model.recipe.RandomRecipeApiResponse
 import com.example.tfs2.model.recipe.RecipeDetailsResponse
 import retrofit2.Call
@@ -17,7 +17,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-class RequestManager(private var context: Context) {
+class RecipeRequestManager(private var context: Context) {
     private var retrofit = Retrofit.Builder()
         .baseUrl("https://api.spoonacular.com/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -25,7 +25,9 @@ class RequestManager(private var context: Context) {
 
     fun getRandomRecipes(listener: RandomRecipeResponseListener, tags: List<String>) {
         val callRandomRecipes: CallRandomRecipes = retrofit.create(CallRandomRecipes::class.java)
-        val call: Call<RandomRecipeApiResponse> = callRandomRecipes.callRandomRecipe(context.getString(R.string.api_key), "10", tags)
+        val call: Call<RandomRecipeApiResponse> = callRandomRecipes.callRandomRecipe(context.getString(
+            R.string.api_key
+        ), "10", tags)
         call.enqueue(object : Callback<RandomRecipeApiResponse> {
             override fun onResponse(call: Call<RandomRecipeApiResponse>, response: Response<RandomRecipeApiResponse>){
                 if (!response.isSuccessful){
@@ -36,14 +38,16 @@ class RequestManager(private var context: Context) {
             }
 
             override fun onFailure(call: Call<RandomRecipeApiResponse>, t: Throwable){
-
+                t.message?.let { listener.didError(it) }
             }
         })
     }
 
     fun getRecipeDetails(listener: RecipeDetailsListener, id: Int) {
         val callRecipeDetails: CallRecipeDetails = retrofit.create(CallRecipeDetails::class.java)
-        val call: Call<RecipeDetailsResponse> = callRecipeDetails.callRecipeDetails(id, context.getString(R.string.api_key))
+        val call: Call<RecipeDetailsResponse> = callRecipeDetails.callRecipeDetails(id, context.getString(
+            R.string.api_key
+        ))
         call.enqueue(object: Callback<RecipeDetailsResponse> {
             override fun onResponse(
                 call: Call<RecipeDetailsResponse>,
@@ -64,7 +68,9 @@ class RequestManager(private var context: Context) {
 
     fun getInstructions(listener: InstructionListener, id: Int) {
         val callInstructions: CallInstructions = retrofit.create(CallInstructions::class.java)
-        val call: Call<List<InstructionResponse>> = callInstructions.callInstructions(id, context.getString(R.string.api_key))
+        val call: Call<List<InstructionResponse>> = callInstructions.callInstructions(id, context.getString(
+            R.string.api_key
+        ))
         call.enqueue(object: Callback<List<InstructionResponse>> {
             override fun onResponse(
                 call: Call<List<InstructionResponse>>,

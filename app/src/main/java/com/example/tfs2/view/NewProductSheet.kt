@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.fragment.app.activityViewModels
@@ -18,7 +17,6 @@ import com.example.tfs2.model.Item
 import com.example.tfs2.viewmodel.ItemModelFactory
 import com.example.tfs2.viewmodel.ItemViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.mlkit.vision.barcode.BarcodeScanner
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -53,6 +51,7 @@ class NewProductSheet(var item: Item?) : BottomSheetDialogFragment() {
             binding.title.text = "Изменение продукта"
             binding.buttonAdd.text = "Изменить"
             binding.textName.setText(item!!.name)
+            date = item!!.expiryDate
         }
         updateDateButtonText()
 
@@ -77,10 +76,10 @@ class NewProductSheet(var item: Item?) : BottomSheetDialogFragment() {
 
     private fun openDatePicker() {
         val listener = DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
-            date = LocalDate.of(selectedYear, selectedMonth + 1, selectedDay)
+            date = LocalDate.of(selectedYear, selectedMonth, selectedDay)
             updateDateButtonText()
         }
-        val dialog = DatePickerDialog(requireActivity(), listener, date.year, date.monthValue - 1, date.dayOfMonth)
+        val dialog = DatePickerDialog(requireActivity(), listener, date.year, date.monthValue, date.dayOfMonth)
         dialog.setTitle("Срок годности")
         dialog.show()
     }
@@ -96,7 +95,7 @@ class NewProductSheet(var item: Item?) : BottomSheetDialogFragment() {
     }
 
     private fun handleScanResult(code: String) {
-        binding.textName.setText("Продукт #$code")
+        binding.textName.setText(code)
     }
 
     private fun saveAction() {

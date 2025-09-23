@@ -1,4 +1,4 @@
-package com.example.tfs2.adapter
+package com.example.tfs2.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tfs2.R
-import com.example.tfs2.model.listener.RecipeClickListener
+import com.example.tfs2.view.listener.RecipeClickListener
 import com.example.tfs2.model.recipe.Recipe
 import com.squareup.picasso.Picasso
 
@@ -32,12 +32,7 @@ class RandomRecipeAdapter(var context: Context, var list: List<Recipe>, var list
         holder.text_time.text = "${list[position].readyInMinutes} Мин"
         Picasso.get().load(list[position].image).into(holder.image_dish)
 
-        holder.random_list_container.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                listener.onRecipeClicked(list[holder.adapterPosition].id.toString())
-            }
-        }
-        )
+        holder.random_list_container.setOnClickListener { listener.onRecipeClicked(list[holder.adapterPosition].id.toString()) }
     }
 
     fun updateData(newList: List<Recipe>) {

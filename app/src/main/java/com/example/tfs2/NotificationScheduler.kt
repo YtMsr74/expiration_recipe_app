@@ -10,7 +10,6 @@ class NotificationScheduler(private val context: Context) {
 
     fun scheduleDailyExpirationCheck() {
 
-
         val dailyWorkRequest = PeriodicWorkRequestBuilder<ExpirationCheckWorker>(1, TimeUnit.DAYS)
             .setInitialDelay(1, TimeUnit.MINUTES)
             .build()

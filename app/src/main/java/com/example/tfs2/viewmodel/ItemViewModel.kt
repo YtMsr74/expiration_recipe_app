@@ -1,20 +1,18 @@
 package com.example.tfs2.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.tfs2.model.Item
 import com.example.tfs2.model.ItemRepository
-import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class ItemViewModel(private val repository: ItemRepository): ViewModel() {
 
-    val items: LiveData<List<Item>> = repository.allItems.asLiveData()
+    val items: StateFlow<List<Item>> = repository.allItems
 
     fun addItem(newItem: Item) = viewModelScope.launch {
         repository.insertItem(newItem)

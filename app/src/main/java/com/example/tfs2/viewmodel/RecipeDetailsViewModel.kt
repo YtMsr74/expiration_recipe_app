@@ -3,16 +3,15 @@ package com.example.tfs2.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
-import com.example.tfs2.RequestManager
-import com.example.tfs2.model.listener.InstructionListener
-import com.example.tfs2.model.listener.RecipeDetailsListener
+import com.example.tfs2.model.RecipeRequestManager
+import com.example.tfs2.view.listener.InstructionListener
+import com.example.tfs2.view.listener.RecipeDetailsListener
 import com.example.tfs2.model.recipe.InstructionResponse
 import com.example.tfs2.model.recipe.RecipeDetailsResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class RecipeDetailsViewModel(private val requestManager: RequestManager) : ViewModel() {
+class RecipeDetailsViewModel(private val requestManager: RecipeRequestManager) : ViewModel() {
     val recipeDetails = MutableStateFlow<RecipeDetailsResponse?>(null)
     val instructions = MutableStateFlow<List<InstructionResponse>>(emptyList())
     val isLoading = MutableStateFlow(false)
@@ -52,7 +51,7 @@ class RecipeDetailsViewModel(private val requestManager: RequestManager) : ViewM
     }
 }
 
-class RecipeDetailsViewModelFactory(private val requestManager: RequestManager) : ViewModelProvider.Factory {
+class RecipeDetailsViewModelFactory(private val requestManager: RecipeRequestManager) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RecipeDetailsViewModel::class.java)) {

@@ -4,21 +4,24 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tfs2.model.ItemCodeResponse
+import com.example.tfs2.model.ItemRequestManager
+import com.example.tfs2.view.listener.ItemInfoListener
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ScanViewModel : ViewModel() {
-    private val _scanResult = MutableStateFlow<String?>(null)
-    val scanResult: StateFlow<String?> = _scanResult
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> = _error
-    private val scanner: BarcodeScanner = BarcodeScanning.getClient()
-    private val _isProcessing = MutableStateFlow(false)
+    val scanResult = MutableStateFlow<String?>(null)
+    val error = MutableStateFlow<String?>(null)
     private var isProcessingImage = false
+    private var lastError = 0L
+    private val errorDelay = 4000L
+
+    private val scanner: BarcodeScanner = BarcodeScanning.getClient()
+    private val itemRequestManager = ItemRequestManager()
 
     @ExperimentalGetImage
     fun processImage(image: ImageProxy) {
@@ -27,16 +30,11 @@ class ScanViewModel : ViewModel() {
             return
         }
         isProcessingImage = true
-        _isProcessing.value = true
 
         val mediaImage = image.image
         if (mediaImage == null) {
             image.close()
             isProcessingImage = false
-            _isProcessing.value = false
-            viewModelScope.launch {
-                _error.value = "Изображение не доступно"
-            }
             return
         }
 
@@ -50,18 +48,16 @@ class ScanViewModel : ViewModel() {
                     viewModelScope.launch {
                         val codeValue = codes.firstOrNull()?.rawValue
                         if (codeValue != null) {
-                            _scanResult.value = codeValue
-                            _error.value = null
+                            getProductName(codeValue)
+                            error.value = null
                         }
                         isProcessingImage = false
-                        _isProcessing.value = false
                     }
                 }
                 .addOnFailureListener { e ->
                     viewModelScope.launch {
-                        _error.value = "Ошибка сканирования: ${e.message}"
+                        showErrorWithDelay("Ошибка сканирования: ${e.message}")
                         isProcessingImage = false
-                        _isProcessing.value = false
                     }
                 }
                 .addOnCompleteListener {
@@ -70,20 +66,61 @@ class ScanViewModel : ViewModel() {
         } catch (e: Exception) {
             image.close()
             isProcessingImage = false
-            _isProcessing.value = false
             viewModelScope.launch {
-                _error.value = "Ошибка обработки: ${e.message}"
+                showErrorWithDelay("Ошибка обработки: ${e.message}")
             }
         }
     }
 
     fun resetScanResult() {
-        _scanResult.value = null
-        _error.value = null
+        scanResult.value = null
+        error.value = null
     }
 
     override fun onCleared() {
         super.onCleared()
         scanner.close()
+    }
+
+    private fun getProductName(code: String) {
+        itemRequestManager.getItemByCode(object: ItemInfoListener {
+            override fun didFetch(response: ItemCodeResponse?, message: String) {
+                viewModelScope.launch {
+                    isProcessingImage = false
+                    when {
+                        response?.status == 1 -> {
+                            val name = response.product?.product_name ?: response.product?.product_nameEn
+                            if (name != null) {
+                                scanResult.value = name
+                                error.value = null
+                            } else {
+                                scanResult.value = null
+                                showErrorWithDelay("Название не найдено")
+                            }
+                        }
+                        else -> {
+                            scanResult.value = null
+                            showErrorWithDelay("Продукт не найден: ${response?.statusVerbose ?: "Неизвестная ошибка"}")
+                        }
+                    }
+                }
+            }
+
+            override fun didError(message: String) {
+                viewModelScope.launch {
+                    isProcessingImage = false
+                    scanResult.value = null
+                    showErrorWithDelay("Ошибка загрузки: $message")
+                }
+            }
+        }, code)
+    }
+
+    private fun showErrorWithDelay(message: String) {
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastError > errorDelay) {
+            error.value = message
+            lastError = currentTime
+        }
     }
 }

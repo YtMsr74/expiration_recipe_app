@@ -1,12 +1,12 @@
 package com.example.tfs2.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.tfs2.RequestManager
-import com.example.tfs2.model.listener.RandomRecipeResponseListener
+import com.example.tfs2.model.RecipeRequestManager
+import com.example.tfs2.view.listener.RandomRecipeResponseListener
 import com.example.tfs2.model.recipe.RandomRecipeApiResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class RecipesViewModel(private val requestManager: RequestManager) : ViewModel() {
+class RecipesViewModel(private val requestManager: RecipeRequestManager) : ViewModel() {
     val recipes = MutableStateFlow<RandomRecipeApiResponse?>(null)
     val isLoading = MutableStateFlow(false)
     val error = MutableStateFlow<String?>(null)

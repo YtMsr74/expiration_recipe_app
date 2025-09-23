@@ -1,4 +1,4 @@
-package com.example.tfs2.model.listener
+package com.example.tfs2.view.listener
 
 import com.example.tfs2.model.recipe.RecipeDetailsResponse
 

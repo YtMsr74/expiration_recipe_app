@@ -6,14 +6,18 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.fragment.app.Fragment
 import com.example.tfs2.R
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tfs2.ItemAdapter
-import com.example.tfs2.ItemClickListener
+import com.example.tfs2.view.adapter.ItemAdapter
+import com.example.tfs2.view.listener.ItemClickListener
 import com.example.tfs2.databinding.FragmentProductsBinding
 import com.example.tfs2.ProductApplication
 import com.example.tfs2.model.Item
 import com.example.tfs2.viewmodel.ItemModelFactory
 import com.example.tfs2.viewmodel.ItemViewModel
+import kotlinx.coroutines.launch
 
 @ExperimentalGetImage
 class ProductsFragment: Fragment(R.layout.fragment_products), ItemClickListener {
@@ -35,10 +39,14 @@ class ProductsFragment: Fragment(R.layout.fragment_products), ItemClickListener 
 
     private fun setRecyclerView() {
         val fragment = this
-        itemViewModel.items.observe(viewLifecycleOwner) {
-            binding.productList.apply {
-                layoutManager = LinearLayoutManager(requireContext().applicationContext)
-                adapter = ItemAdapter(it, fragment)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                itemViewModel.items.collect { items ->
+                    binding.productList.apply {
+                        layoutManager = LinearLayoutManager(requireContext().applicationContext)
+                        adapter = ItemAdapter(items, fragment)
+                    }
+                }
             }
         }
     }

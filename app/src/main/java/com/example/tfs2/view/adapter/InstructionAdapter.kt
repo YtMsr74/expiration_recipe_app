@@ -1,4 +1,4 @@
-package com.example.tfs2.adapter
+package com.example.tfs2.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tfs2.R
 import com.example.tfs2.model.recipe.InstructionResponse
-import com.example.tfs2.model.recipe.Recipe
 
 class InstructionAdapter(var context: Context, var list: List<InstructionResponse>) : RecyclerView.Adapter<InstructionViewHolder>() {
 
