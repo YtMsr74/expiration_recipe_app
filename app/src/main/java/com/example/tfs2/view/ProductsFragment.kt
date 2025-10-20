@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tfs2.view.adapter.ItemAdapter
 import com.example.tfs2.view.listener.ItemClickListener
 import com.example.tfs2.databinding.FragmentProductsBinding
-import com.example.tfs2.ProductApplication
+import com.example.tfs2.util.ProductApplication
 import com.example.tfs2.model.Item
 import com.example.tfs2.viewmodel.ItemModelFactory
 import com.example.tfs2.viewmodel.ItemViewModel

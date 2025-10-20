@@ -1,4 +1,4 @@
-package com.example.tfs2
+package com.example.tfs2.util
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,6 +9,7 @@ import com.example.tfs2.model.ItemDatabase
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import com.example.tfs2.R
 import com.example.tfs2.model.Item
 import com.example.tfs2.view.MainActivity
 import java.time.LocalDate

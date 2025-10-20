@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tfs2.R
 import com.example.tfs2.model.recipe.ExtendedIngredient
-import com.example.tfs2.model.recipe.Recipe
 import com.squareup.picasso.Picasso
 
 class IngredientAdapter(var context: Context, var list: List<ExtendedIngredient>): RecyclerView.Adapter<IngredientViewHolder>() {

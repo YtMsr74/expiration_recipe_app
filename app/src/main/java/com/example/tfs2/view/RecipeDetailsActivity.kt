@@ -51,6 +51,11 @@ class RecipeDetailsActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@RecipeDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = ingredientAdapter
         }
+        binding.recyclerDishInstructions.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@RecipeDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = instructionAdapter
+        }
     }
 
     private fun setupObservers() {

@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.ExperimentalGetImage
 import androidx.fragment.app.activityViewModels
-import com.example.tfs2.ProductApplication
+import com.example.tfs2.util.ProductApplication
 import com.example.tfs2.databinding.FragmentNewProductBinding
 import com.example.tfs2.model.Item
 import com.example.tfs2.viewmodel.ItemModelFactory

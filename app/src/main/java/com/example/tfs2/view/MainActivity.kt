@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.tfs2.ExpirationCheckWorker
+import com.example.tfs2.util.ExpirationCheckWorker
 import com.example.tfs2.R
 import com.example.tfs2.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit

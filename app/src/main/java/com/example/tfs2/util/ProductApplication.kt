@@ -1,4 +1,4 @@
-package com.example.tfs2
+package com.example.tfs2.util
 
 import android.app.Application
 import com.example.tfs2.model.ItemDatabase
