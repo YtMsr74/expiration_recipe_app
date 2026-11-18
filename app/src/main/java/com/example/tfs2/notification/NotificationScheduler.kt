@@ -1,4 +1,4 @@
-package com.example.tfs2.util
+package com.example.tfs2.notification
 
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy

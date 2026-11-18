@@ -1,4 +1,4 @@
-package com.example.tfs2.util
+package com.example.tfs2.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

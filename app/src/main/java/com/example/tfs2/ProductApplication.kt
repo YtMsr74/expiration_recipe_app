@@ -1,8 +1,9 @@
-package com.example.tfs2.util
+package com.example.tfs2
 
 import android.app.Application
 import com.example.tfs2.model.ItemDatabase
 import com.example.tfs2.model.ItemRepository
+import com.example.tfs2.notification.NotificationScheduler
 
 class ProductApplication: Application() {
     private val database by lazy { ItemDatabase.getDatabase(this) }
